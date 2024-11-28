@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "f8dd4f9f-2410-4e42-9f39-e33bf00e40cc",
+		"name": "School Management Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40052219"
+	},
+	"item": [
+		{
+			"name": "add school",
+			"request": {
+				"method": "POST",
+				"header": [ {
+					"key": "Content-Type",
+					"value": "application/json"
+				  }],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n    \"name\": \"Greenwood Academy\",\r\n    \"address\": \"909 Forest Lane, Greenwood\",\r\n    \"latitude\": 37.774929,\r\n    \"longitude\": -122.419418\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/addschool?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"addschool"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [{
+				"message": "School added successfully!",
+				"schoolId": 12
+			}]
+		},
+		{
+			"name": "list school",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/listSchools?latitude=40.712776&longitude=-74.005974\n",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listSchools"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "40.712776"
+						},
+						{
+							"key": "longitude",
+							"value": "-74.005974\n"
+						}
+					]
+				}
+			},
+			"response": [[
+				{
+					"id": 2,
+					"name": "Green Valley High",
+					"address": "123 School St",
+					"latitude": 40.7128,
+					"longitude": -74.006,
+					"distance": 0.0034531239559833153
+				},
+				{
+					"id": 8,
+					"name": "Central Technical School",
+					"address": "100 Main Street, Central City",
+					"latitude": 40.7306,
+					"longitude": -73.9352,
+					"distance": 6.285029671060978
+				},
+				{
+					"id": 9,
+					"name": "Central Technical School",
+					"address": "100 Main Street, Central City",
+					"latitude": 40.7306,
+					"longitude": -73.9352,
+					"distance": 6.285029671060978
+				},
+				{
+					"id": 10,
+					"name": "Central Technical School",
+					"address": "100 Main Street, Central City",
+					"latitude": 40.7306,
+					"longitude": -73.9352,
+					"distance": 6.285029671060978
+				},
+				{
+					"id": 3,
+					"name": "Riverdale Academy",
+					"address": "101 Elm Street, Riverdale",
+					"latitude": 40.8162,
+					"longitude": -73.9213,
+					"distance": 13.53176170813815
+				},
+				{
+					"id": 6,
+					"name": "Westfield Secondary School",
+					"address": "606 Birch Street, Westfield",
+					"latitude": 41.8781,
+					"longitude": -87.6298,
+					"distance": 1144.2939332193787
+				},
+				{
+					"id": 4,
+					"name": "Springfield High School",
+					"address": "202 Oak Avenue, Springfield",
+					"latitude": 39.7817,
+					"longitude": -89.6501,
+					"distance": 1329.9944484920632
+				},
+				{
+					"id": 5,
+					"name": "Hillcrest Elementary",
+					"address": "404 Maple Drive, Hillcrest",
+					"latitude": 34.0522,
+					"longitude": -118.244,
+					"distance": 3935.773846103823
+				},
+				{
+					"id": 7,
+					"name": "Northview High",
+					"address": "707 Aspen Court, Northview",
+					"latitude": 34.0522,
+					"longitude": -118.244,
+					"distance": 3935.773846103823
+				},
+				{
+					"id": 11,
+					"name": "Greenwood Academy",
+					"address": "909 Forest Lane, Greenwood",
+					"latitude": 37.7749,
+					"longitude": -122.419,
+					"distance": 4129.055834001574
+				},
+				{
+					"id": 12,
+					"name": "Greenwood Academy",
+					"address": "909 Forest Lane, Greenwood",
+					"latitude": 37.7749,
+					"longitude": -122.419,
+					"distance": 4129.055834001574
+				},
+				{
+					"id": 1,
+					"name": "s",
+					"address": "d",
+					"latitude": 1,
+					"longitude": 2,
+					"distance": 8759.440152060179
+				}
+			]]
+		}
+	]
+}
