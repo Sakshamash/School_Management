@@ -8,8 +8,9 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-const connection =mysql.createConnection({
+let connection;
+function handleConnection(){
+connection =mysql.createConnection({
     host:"localhost",
     user:"root",
     database:"school",
@@ -18,9 +19,12 @@ const connection =mysql.createConnection({
 connection.connect((err)=>{
     if(err){
         console.log(err);
-    }
+        setTimeout(handleConnection, 2000);
+    }else{
     console.log("Connected to database");
-});
+    }
+})};
+handleConnection();
 app.get("/",(req,res)=>{
     res.send("send postman request to server");
 
