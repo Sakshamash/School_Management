@@ -21,6 +21,11 @@ connection.connect((err)=>{
     }
     console.log("Connected to database");
 });
+app.get("/",(req,res)=>{
+    res.send("send postman request to server");
+
+})
+
 
 app.post("/addschool",(req,res)=>{
     let {name,address,latitude,longitude}=req.body;
