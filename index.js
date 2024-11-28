@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 
 // Initialize express app
 const app = express();
-const port = 8080;
+// const port = 8080;
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -80,7 +80,7 @@ app.post('/addSchool', (req, res) => {
   });
   
 
-// Start server
-app.listen(port, () => {
-  console.log(`Server is running on ${port}`);
-});
+// // Start server
+// app.listen(port, () => {
+//   console.log(`Server is running on ${port}`);
+// });
