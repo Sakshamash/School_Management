@@ -10,13 +10,10 @@
 			"name": "add school",
 			"request": {
 				"method": "POST",
-				"header": [ {
-					"key": "Content-Type",
-					"value": "application/json"
-				  }],
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": " {\r\n    \"name\": \"Greenwood Academy\",\r\n    \"address\": \"909 Forest Lane, Greenwood\",\r\n    \"latitude\": 37.774929,\r\n    \"longitude\": -122.419418\r\n  }",
+					"raw": "{\r\n  \"name\": \"Springfield High\",\r\n  \"address\": \"1234 Elm St, Springfield, IL\",\r\n  \"latitude\": 39.7817,\r\n  \"longitude\": -89.6501\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -32,18 +29,12 @@
 					"port": "8080",
 					"path": [
 						"addschool"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": null
-						}
 					]
 				}
 			},
 			"response": [{
-				"message": "School added successfully!",
-				"schoolId": 12
+				"message": "School added successfully",
+				"schoolId": 13
 			}]
 		},
 		{
@@ -128,7 +119,23 @@
 					"address": "202 Oak Avenue, Springfield",
 					"latitude": 39.7817,
 					"longitude": -89.6501,
-					"distance": 1329.9944484920632
+					"distance": 1329.9944484920634
+				},
+				{
+					"id": 13,
+					"name": "Springfield High",
+					"address": "1234 Elm St, Springfield, IL",
+					"latitude": 39.7817,
+					"longitude": -89.6501,
+					"distance": 1329.9944484920634
+				},
+				{
+					"id": 14,
+					"name": "Springfield High",
+					"address": "1234 Elm St, Springfield, IL",
+					"latitude": 39.7817,
+					"longitude": -89.6501,
+					"distance": 1329.9944484920634
 				},
 				{
 					"id": 5,
@@ -168,7 +175,7 @@
 					"address": "d",
 					"latitude": 1,
 					"longitude": 2,
-					"distance": 8759.440152060179
+					"distance": 8759.44015206018
 				}
 			]]
 		}

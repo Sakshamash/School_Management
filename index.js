@@ -1,93 +1,86 @@
-const express=require("express");
-const app=express();
-const {client}=require("pg");
-const bodyParser = require('body-parser');
+const express = require('express');
+const mysql = require('mysql2');
 
 
-app.use(bodyParser.json());
-app.use(express.json());
+// Initialize express app
+const app = express();
+const port = 8080;
+
+// Middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-let client=new Client({
-host:`school_management_3hyg.onrender.com`,
-port:5432,
-user:`school_management_3hyg_user`,
-password:`ZhDPmbUlZWvLXAS8lC72pWCv0iNWGhzv`,
-database:"school_management_3hyg",
-});
-client.connect((err)=>{
-    if(err){
-        console.log(err);
-    }else{
-    console.log("Connected to database");
-    }
-});
-app.get("/",(req,res)=>{
-    res.send("send postman request to server");
+
+// MySQL connection
+const conncection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'Saksham@1',
+  database: 'school'
 });
 
-app.post("/addschool",(req,res)=>{
-    let {name,address,latitude,longitude}=req.body;
-    console.log(req.body);
-    let values=[name,address,latitude,longitude];
-  if (!name ||!address||!latitude || !longitude) {
-    return res.status(400).json({ message: 'All fields are required (name,address,latitude, longitude)'});
+conncection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to the database:', err);
+  } else {
+    console.log('Connected to MySQL database');
   }
-  const q="Insert into school(name,address,latitude,longitude)values(?,?,?,?)";
-    connection.query(q,values,(err,result)=>{
-        if (err) {
-            console.error('Error adding school:', err);
-            return res.status(500).json({ message: 'Failed to add school.' });
-          }
-      
-          res.status(201).json({ message: 'School added successfully!', schoolId: result.insertId });
-        });
-    });
-    app.get("/listSchools", (req, res) => {
-        const { latitude, longitude } = req.query;
-      
-        if (!latitude || !longitude) {
-          return res.status(400).json({ message: "Latitude and longitude are required." });
-        }
-      
-        const userLat = parseFloat(latitude);
-        const userLon = parseFloat(longitude);
-      
-        if (isNaN(userLat) || isNaN(userLon)) {
-          return res.status(400).json({ message: "Latitude and longitude must be valid numbers." });
-        }
-      
-        const query = "SELECT id, name, address, latitude, longitude FROM school";
-        connection.query(query, (err, schools) => {
-          if (err) {
-            console.error("Error fetching schools:", err);
-            return res.status(500).json({ message: "Failed to fetch school" });
-          }
-      
-          const haversineDistance = (lat1, lon1, lat2, lon2) => {
-            const toRad = (value) => (value * Math.PI) / 180;
-            const R = 6371; // Earth's radius in km
-            const dLat = toRad(lat2 - lat1);
-            const dLon = toRad(lon2 - lon1);
-            const a =
-              Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return R * c; // Distance in km
-          };
-      
-          const sortedSchools = schools
-            .map((school) => ({
-              ...school,
-              distance: haversineDistance(userLat, userLon, school.latitude, school.longitude),
-            }))
-            .sort((a, b) => a.distance - b.distance);
-      
-          res.status(200).json(sortedSchools);
-        });
-      });
-      
+});
 
-app.listen(8080, () => {
-    console.log("server is listening on port:8080");
+app.post('/addSchool', (req, res) => {
+    const { name, address, latitude, longitude } = req.body;
+  
+    // Input validation
+    if (!name || !address || !latitude || !longitude) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+    const q = 'INSERT INTO school (name, address, latitude, longitude) VALUES (?, ?, ?, ?)';
+    conncection.query(q, [name, address, latitude, longitude], (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Database error', error: err });
+      }
+      res.status(201).json({ message: 'School added successfully', schoolId: result.insertId });
+    });
+  });
+  const haversine = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Radius of the Earth in kilometers
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in kilometers
+  };
+  
+  app.get('/listSchools', (req, res) => {
+    const { latitude, longitude } = req.query;
+  
+    // Validate inputs
+    if (!latitude || !longitude || isNaN(latitude) || isNaN(longitude)) {
+      return res.status(400).json({ message: 'Valid latitude and longitude are required' });
+    }
+  
+    const q1 = 'SELECT * FROM school';
+    conncection.query(q1, (err, results) => {
+      if (err) {
+        return res.status(500).json({ message: 'Database error', error: err });
+      }
+  
+      const schoolsWithDistance = results.map(school => {
+        const distance = haversine(latitude, longitude, school.latitude, school.longitude);
+        return { ...school, distance };
+      });
+  
+      schoolsWithDistance.sort((a, b) => a.distance - b.distance);
+  
+      res.status(200).json(schoolsWithDistance);
+    });
+  });
+  
+
+// Start server
+app.listen(port, () => {
+  console.log(`Server is running on ${port}`);
 });
