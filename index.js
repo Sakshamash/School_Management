@@ -1,6 +1,6 @@
 const express=require("express");
 const app=express();
-const mysql=require("mysql2");
+const {client}=require("pg");
 const bodyParser = require('body-parser');
 
 
@@ -8,28 +8,23 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-let connection;
-function handleConnection(){
-connection =mysql.createConnection({
-    host:"dpg-ct3v8s23esus73fbd560-a",
-    user:"school_management_3hyg_user",
-    database:"school_management_3hyg",
-    password:"ZhDPmbUlZWvLXAS8lC72pWCv0iNWGhzv"
+let client=new Client({
+host:`school_management_3hyg.onrender.com`,
+port:5432,
+user:`school_management_3hyg_user`,
+password:`ZhDPmbUlZWvLXAS8lC72pWCv0iNWGhzv`,
+database:"school_management_3hyg",
 });
-connection.connect((err)=>{
+client.connect((err)=>{
     if(err){
         console.log(err);
-        setTimeout(handleConnection, 2000);
     }else{
     console.log("Connected to database");
     }
-})};
-handleConnection();
+});
 app.get("/",(req,res)=>{
     res.send("send postman request to server");
-
-})
-
+});
 
 app.post("/addschool",(req,res)=>{
     let {name,address,latitude,longitude}=req.body;
