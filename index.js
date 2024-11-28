@@ -11,10 +11,10 @@ app.use(express.urlencoded({ extended: true }));
 let connection;
 function handleConnection(){
 connection =mysql.createConnection({
-    host:"127.0.0.1",
-    user:"root",
-    database:"school",
-    password:"Saksham@1"
+    host:"dpg-ct3v8s23esus73fbd560-a",
+    user:"school_management_3hyg_user",
+    database:"school_management_3hyg",
+    password:"ZhDPmbUlZWvLXAS8lC72pWCv0iNWGhzv"
 });
 connection.connect((err)=>{
     if(err){
